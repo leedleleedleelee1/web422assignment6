@@ -10,15 +10,19 @@ import { addToHistory } from '@/lib/userData';
 const MainNav = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [token, setToken] = useState(null);
-  const [navRenderTrigger, setNavRenderTrigger] = useState(0);
   const router = useRouter();
   const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
   const [searchField, setSearchField] = useState('');
 
   useEffect(() => {
     const savedToken = readToken();
+    console.log("Saved Token:", savedToken);
     setToken(savedToken);
-  }, [navRenderTrigger]);
+  }, []);
+
+  useEffect(() => {
+    console.log("Token State Updated:", token);
+  }, [token]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,18 +53,7 @@ const MainNav = () => {
     setIsExpanded(false);
     removeToken();
     setToken(null);
-    setNavRenderTrigger(prev => prev + 1);
     router.push('/login');
-  };
-
-  const login = () => {
-    router.push('/login');
-    setNavRenderTrigger(prev => prev + 1);
-  };
-
-  const register = () => {
-    router.push('/register');
-    setNavRenderTrigger(prev => prev + 1);
   };
 
   return (
@@ -101,10 +94,10 @@ const MainNav = () => {
             ) : (
               <Nav>
                 <Link href="/login" passHref legacyBehavior>
-                  <Nav.Link onClick={login} active={router.pathname === "/login"}>Login</Nav.Link>
+                  <Nav.Link onClick={closeNavbar} active={router.pathname === "/login"}>Login</Nav.Link>
                 </Link>
                 <Link href="/register" passHref legacyBehavior>
-                  <Nav.Link onClick={register} active={router.pathname === "/register"}>Register</Nav.Link>
+                  <Nav.Link onClick={closeNavbar} active={router.pathname === "/register"}>Register</Nav.Link>
                 </Link>
               </Nav>
             )}
