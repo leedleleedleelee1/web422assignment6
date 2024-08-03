@@ -1,3 +1,18 @@
+/*********************************************************************************
+*  WEB422 – Assignment 6
+*
+*  I declare that this assignment is my own work in accordance with Seneca's
+*  Academic Integrity Policy:
+* 
+*  https://www.senecapolytechnic.ca/about/policies/academic-integrity-policy.html
+* 
+*  Name: ___Frank Fu___________________ Student ID: ____126609197____________ Date: ________Aug 2 2024____________
+*
+*  Vercel App (Deployed) Link: ______https://web422assignment6-nine.vercel.app/_
+*
+********************************************************************************/ 
+
+
 import Image from 'react-bootstrap/Image';
 import { Row, Col } from 'react-bootstrap';
 
