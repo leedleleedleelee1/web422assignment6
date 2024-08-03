@@ -6,6 +6,8 @@ import ArtworkCard from '@/components/ArtworkCard';
 const Favourites = () => {
   const [favouritesList] = useAtom(favouritesAtom);
 
+  if (!favouritesList) return null;
+
   return (
     <>
       <Row className="gy-4">
@@ -17,8 +19,10 @@ const Favourites = () => {
           ))
         ) : (
           <Card>
-            <h4>Nothing Here</h4>
-            <p>Try adding some new artwork to the list.</p>
+            <Card.Body>
+              <Card.Title>Nothing Here</Card.Title>
+              <Card.Text>Try adding some new artwork to the list.</Card.Text>
+            </Card.Body>
           </Card>
         )}
       </Row>

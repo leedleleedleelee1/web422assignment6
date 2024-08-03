@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { useAtom } from 'jotai';
 import { searchHistoryAtom } from '@/store';
 import { removeToken, readToken } from '@/lib/authenticate';
+import { addToHistory } from '@/lib/userData';
 
 const MainNav = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [token, setToken] = useState(null);
+  const [navRenderTrigger, setNavRenderTrigger] = useState(0);
   const router = useRouter();
   const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom);
   const [searchField, setSearchField] = useState('');
@@ -16,12 +18,17 @@ const MainNav = () => {
   useEffect(() => {
     const savedToken = readToken();
     setToken(savedToken);
-  }, []);
+  }, [navRenderTrigger]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const queryString = `title=true&q=${searchField}`;
-    setSearchHistory(current => [...current, queryString]);
+    try {
+      const updatedHistory = await addToHistory(queryString);
+      setSearchHistory(updatedHistory);
+    } catch (err) {
+      console.error('Failed to update search history:', err);
+    }
     router.push(`/artwork?${queryString}`);
     setIsExpanded(false);
   };
@@ -42,7 +49,18 @@ const MainNav = () => {
     setIsExpanded(false);
     removeToken();
     setToken(null);
+    setNavRenderTrigger(prev => prev + 1);
     router.push('/login');
+  };
+
+  const login = () => {
+    router.push('/login');
+    setNavRenderTrigger(prev => prev + 1);
+  };
+
+  const register = () => {
+    router.push('/register');
+    setNavRenderTrigger(prev => prev + 1);
   };
 
   return (
@@ -71,7 +89,7 @@ const MainNav = () => {
           &nbsp;
           <Nav>
             {token ? (
-              <NavDropdown title={token.username} id="basic-nav-dropdown">
+              <NavDropdown title={token.userName} id="basic-nav-dropdown">
                 <Link href="/favourites" passHref legacyBehavior>
                   <NavDropdown.Item onClick={closeNavbar} active={router.pathname === "/favourites"}>Favourites</NavDropdown.Item>
                 </Link>
@@ -83,10 +101,10 @@ const MainNav = () => {
             ) : (
               <Nav>
                 <Link href="/login" passHref legacyBehavior>
-                  <Nav.Link onClick={closeNavbar} active={router.pathname === "/login"}>Login</Nav.Link>
+                  <Nav.Link onClick={login} active={router.pathname === "/login"}>Login</Nav.Link>
                 </Link>
                 <Link href="/register" passHref legacyBehavior>
-                  <Nav.Link onClick={closeNavbar} active={router.pathname === "/register"}>Register</Nav.Link>
+                  <Nav.Link onClick={register} active={router.pathname === "/register"}>Register</Nav.Link>
                 </Link>
               </Nav>
             )}
