@@ -11,7 +11,7 @@ const ArtworkCard = ({ objectID }) => {
 
   return (
     <Card>
-      <Card.Img variant="top" src={data.primaryImageSmall || 'https://via.placeholder.com/375x375.png?text=[+Not+Available+]'} />
+      <Card.Img variant="top" src={data.primaryImageSmall || 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'} />
       <Card.Body>
         <Card.Title>{data.title || 'N/A'}</Card.Title>
         <Card.Text>
