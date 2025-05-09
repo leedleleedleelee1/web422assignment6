@@ -59,7 +59,7 @@ const MainNav = () => {
   return (
     <Navbar expanded={isExpanded} fixed="top" className="navbar-dark bg-primary" expand="lg">
       <Container>
-        <Navbar.Brand href="/">Frank Fu</Navbar.Brand>
+        <Navbar.Brand href="/">The MET Art Explorer</Navbar.Brand>
         <Navbar.Toggle onClick={toggleNavbar} />
         <Navbar.Collapse>
           <Nav className="mr-auto">
